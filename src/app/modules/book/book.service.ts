@@ -1,12 +1,12 @@
 import { Book } from "./book.model";
 
-// create book service
+// ---- Create Book Service ------
 export const createBookService = async (book: object) => {
   const newBook = await Book.create(book);
   return newBook;
 };
 
-// get book service
+// ------ Get Book Service -----
 export const getBooksService = async (query: any) => {
   const filter: any = {};
   const sorting: any = {};
@@ -33,13 +33,13 @@ export const getBooksService = async (query: any) => {
   return allBooks;
 };
 
-// get single book service
+// ------ Get Single Book Service -----
 export const getSingleBookService = async (bookId: string) => {
   const book = await Book.findById(bookId);
   return book;
 };
 
-// update book service
+// ----- Update Book Service -----
 export const updateBookService = async (bookId: object, newData: object) => {
   const updatedBook = await Book.findOneAndUpdate(bookId, newData, {
     new: true,
@@ -47,7 +47,7 @@ export const updateBookService = async (bookId: object, newData: object) => {
   return updatedBook;
 };
 
-// delete book service
+// ----- Delete Book Service ------
 export const deleteBookService = async (bookId: string) => {
   const deleteBook = await Book.findByIdAndDelete(bookId);
   return deleteBook;

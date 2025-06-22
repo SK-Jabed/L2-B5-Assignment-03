@@ -8,11 +8,12 @@ import {
 } from "./book.service";
 import mongoose from "mongoose";
 
-// create books controller
+// ----- Create Book ------
 export const createBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const body = req.body;
     const newBook = await createBookService(body);
+
     res.status(201).json({
       success: true,
       message: "Book created successfully",
@@ -29,9 +30,11 @@ export const createBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,
@@ -49,6 +52,7 @@ export const createBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
@@ -57,7 +61,7 @@ export const createBook = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-// get all books controller
+// ------ Get All Books Data ------
 export const getBooks = async (req: Request, res: Response): Promise<any> => {
   try {
     let query = {
@@ -68,6 +72,7 @@ export const getBooks = async (req: Request, res: Response): Promise<any> => {
     };
 
     const allBooks = await getBooksService(query);
+
     res.status(201).json({
       success: true,
       message: "Books retrieved successfully",
@@ -84,6 +89,7 @@ export const getBooks = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
@@ -104,6 +110,7 @@ export const getBooks = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
@@ -112,16 +119,16 @@ export const getBooks = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-// get single book controller
-
+// ------ Get Single Book's Data -------
 export const getSingleBook = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
     const { bookId } = req.params;
-    console.log(bookId);
+
     const book = await getSingleBookService(bookId);
+
     res.status(201).json({
       success: true,
       message: "Book retrieved successfully",
@@ -138,9 +145,11 @@ export const getSingleBook = async (
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,
@@ -158,6 +167,7 @@ export const getSingleBook = async (
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
@@ -166,12 +176,14 @@ export const getSingleBook = async (
   }
 };
 
-// update book controller
+// ------ Update a Book's Data -------
 export const updateBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const bookId = req.params.bookId;
     const newData = req.body;
+
     const updateBook = await updateBookService({ _id: bookId }, newData);
+
     res.status(201).json({
       success: true,
       message: "Book updated successfully",
@@ -188,6 +200,7 @@ export const updateBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
@@ -208,6 +221,7 @@ export const updateBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
@@ -216,11 +230,12 @@ export const updateBook = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-// delete Book controller
+// ------ Delete Book Data ------
 export const deleteBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const { bookId } = req.params;
     const deletedBook = await deleteBookService(bookId);
+
     res.status(201).json({
       success: true,
       message: "Book deleted successfully",
@@ -237,9 +252,11 @@ export const deleteBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,
@@ -257,6 +274,7 @@ export const deleteBook = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,

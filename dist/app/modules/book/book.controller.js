@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBook = exports.updateBook = exports.getSingleBook = exports.getBooks = exports.createBook = void 0;
 const book_service_1 = require("./book.service");
 const mongoose_1 = __importDefault(require("mongoose"));
-// create books controller
+// ----- Create Book ------
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
@@ -65,7 +65,7 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createBook = createBook;
-// get all books controller
+// ------ Get All Books Data ------
 const getBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     try {
@@ -121,11 +121,10 @@ const getBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getBooks = getBooks;
-// get single book controller
+// ------ Get Single Book's Data -------
 const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;
-        console.log(bookId);
         const book = yield (0, book_service_1.getSingleBookService)(bookId);
         res.status(201).json({
             success: true,
@@ -172,7 +171,7 @@ const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getSingleBook = getSingleBook;
-// update book controller
+// ------ Update a Book's Data -------
 const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookId = req.params.bookId;
@@ -223,7 +222,7 @@ const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateBook = updateBook;
-// delete Book controller
+// ------ Delete Book Data ------
 const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;

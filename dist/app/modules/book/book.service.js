@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBookService = exports.updateBookService = exports.getSingleBookService = exports.getBooksService = exports.createBookService = void 0;
 const book_model_1 = require("./book.model");
-// create book service
+// ---- Create Book Service ------
 const createBookService = (book) => __awaiter(void 0, void 0, void 0, function* () {
     const newBook = yield book_model_1.Book.create(book);
     return newBook;
 });
 exports.createBookService = createBookService;
-// get book service
+// ------ Get Book Service -----
 const getBooksService = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = {};
     const sorting = {};
@@ -37,13 +37,13 @@ const getBooksService = (query) => __awaiter(void 0, void 0, void 0, function* (
     return allBooks;
 });
 exports.getBooksService = getBooksService;
-// get single book service
+// ------ Get Single Book Service -----
 const getSingleBookService = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
     const book = yield book_model_1.Book.findById(bookId);
     return book;
 });
 exports.getSingleBookService = getSingleBookService;
-// update book service
+// ----- Update Book Service -----
 const updateBookService = (bookId, newData) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedBook = yield book_model_1.Book.findOneAndUpdate(bookId, newData, {
         new: true,
@@ -51,7 +51,7 @@ const updateBookService = (bookId, newData) => __awaiter(void 0, void 0, void 0,
     return updatedBook;
 });
 exports.updateBookService = updateBookService;
-// delete book service
+// ----- Delete Book Service ------
 const deleteBookService = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
     const deleteBook = yield book_model_1.Book.findByIdAndDelete(bookId);
     return deleteBook;
