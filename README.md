@@ -1,4 +1,4 @@
-# 📚 Library Management
+# 📚 Library Management API
 
 A **robust**, **scalable**, and **feature-rich** RESTful API for managing books and borrowings in a library system. Built with **Express.js**, **TypeScript**, and **MongoDB** using **Mongoose**, this backend service offers seamless CRUD operations, real-time availability tracking, borrow management, and business-rule enforcement — making it ideal for educational institutions, digital libraries, and small-to-mid scale inventory systems.
 
@@ -11,9 +11,10 @@ A **robust**, **scalable**, and **feature-rich** RESTful API for managing books 
 - [Benefits](#-benefits)
 - [Installation](#-installation)
 - [Environment Setup](#-environment-setup)
-- [API Documentation](#-api-documentation)
+- [Start the Server](#-start-the-server)
 - [Models](#-models)
 - [Error Handling](#-error-handling)
+- [API Documentation](#-api-documentation)
 - [Mongoose Features](#-mongoose-features)
 - [Testing](#-testing)
 - [Security](#-security)
@@ -26,12 +27,13 @@ A **robust**, **scalable**, and **feature-rich** RESTful API for managing books 
 
 ## 🚀 Features
 
-- 📘 Create, update, retrieve, and delete books
-- 🔄 Real-time availability tracking via dynamic business logic
+- 📘 CRUD operations for books
+- 🔄 Real-time book availability based on stock
 - 🧮 Borrowing system with quantity checks and due dates
-- 📊 Aggregated borrow summary using MongoDB pipelines
-- ✅ Schema validation and Mongoose lifecycle middleware
-- 🧠 Encapsulated logic using Mongoose static/instance methods
+- 📊 Borrow summary via MongoDB aggregation pipeline
+- ✅ Schema validation with Mongoose
+- 🧠 Static and instance methods for encapsulated logic
+- ⚙️ Middleware for auto-handling logic and data transformation
 
 ---
 
@@ -46,10 +48,10 @@ A **robust**, **scalable**, and **feature-rich** RESTful API for managing books 
 
 ## 🎯 Benefits
 
-- **Educational-Ready**: Ideal for hands-on learning about REST APIs and MongoDB.
-- **Modular & Extensible**: Easily extendable for future features like authentication or QR-based book checkouts.
-- **Production-Grade**: Follows best practices with environment management, data validation, and error handling.
-- **Lightweight Deployment**: Can be hosted on platforms like Render, Railway, or MongoDB Atlas for quick demos or MVPs.
+- **Educational-Ready**: Excellent for learning backend architecture.
+- **Modular & Extensible**: Easily upgradeable with new modules.
+- **Production-Friendly**: Uses industry-standard practices.
+- **Lightweight Deployment**: Can run on Render, Railway, or MongoDB Atlas.
 
 ---
 
@@ -59,8 +61,7 @@ A **robust**, **scalable**, and **feature-rich** RESTful API for managing books 
 
 ```bash
 git clone https://github.com/SK-Jabed/L2-B5-Assignment-03-LM-API.git
-cd l2-b5-assignment-03
-```
+cd L2-B5-Assignment-03-LM-API
 ````
 
 ### 2. Install Dependencies
@@ -73,23 +74,23 @@ npm install
 
 ## ⚙️ Environment Setup
 
-Create a `.env` file at the project root and configure the MongoDB URI:
+Create a `.env` file in the root directory and add the following:
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/library-management
 ```
 
-> Or connect using your MongoDB cloud instance (MongoDB Atlas URI).
+> For production, replace with your MongoDB Atlas URI.
 
 ---
 
-## 🚀 Start the Development Server
+## 🚀 Start the Server
 
 ```bash
 npm run dev
 ```
 
-> Server runs by default at `http://localhost:5000`
+> The server runs on: `http://localhost:5000`
 
 ---
 
@@ -99,27 +100,29 @@ npm run dev
 
 | Field         | Type    | Required | Description                                                                  |
 | ------------- | ------- | -------- | ---------------------------------------------------------------------------- |
-| `title`       | string  | ✅       | Book title                                                                   |
-| `author`      | string  | ✅       | Book author                                                                  |
-| `genre`       | string  | ✅       | Enum: `FICTION`, `NON_FICTION`, `SCIENCE`, `HISTORY`, `BIOGRAPHY`, `FANTASY` |
-| `isbn`        | string  | ✅       | Unique ISBN identifier                                                       |
-| `description` | string  | ❌       | Optional summary                                                             |
-| `copies`      | number  | ✅       | Non-negative integer                                                         |
-| `available`   | boolean | ❌       | Auto-managed based on `copies` (default: `true`)                             |
+| `title`       | string  | ✅        | Book title                                                                   |
+| `author`      | string  | ✅        | Book author                                                                  |
+| `genre`       | string  | ✅        | Enum: `FICTION`, `NON_FICTION`, `SCIENCE`, `HISTORY`, `BIOGRAPHY`, `FANTASY` |
+| `isbn`        | string  | ✅        | Unique ISBN identifier                                                       |
+| `description` | string  | ❌        | Optional description                                                         |
+| `copies`      | number  | ✅        | Non-negative number of available copies                                      |
+| `available`   | boolean | ❌        | Auto-managed based on `copies` (default: `true`)                             |
 
 ---
 
-### 📘 Borrow Model
+### 📦 Borrow Model
 
-| Field      | Type     | Required | Description                        |
-| ---------- | -------- | -------- | ---------------------------------- |
-| `book`     | ObjectId | ✅       | Reference to a book document       |
-| `quantity` | number   | ✅       | Positive number of copies borrowed |
-| `dueDate`  | ISO Date | ✅       | Due date for returning the book    |
+| Field      | Type     | Required | Description                             |
+| ---------- | -------- | -------- | --------------------------------------- |
+| `book`     | ObjectId | ✅        | Reference to the book being borrowed    |
+| `quantity` | number   | ✅        | Number of copies to borrow              |
+| `dueDate`  | ISO Date | ✅        | Date by which the book must be returned |
 
 ---
 
-## ❌ Error Handling Example
+## ❌ Error Handling
+
+Example error response for invalid input:
 
 ```json
 {
@@ -144,9 +147,9 @@ npm run dev
 
 ## 📖 API Documentation
 
-### 1. **Create Book**
+### 1. **Create a Book**
 
-`POST /api/books`
+**POST** `/api/books`
 
 ```json
 {
@@ -163,26 +166,26 @@ npm run dev
 
 ### 2. **Get All Books**
 
-`GET /api/books`
+**GET** `/api/books`
 
-**Query Params**:
+**Query Parameters**:
 
-- `filter`: Genre filter (e.g., `FANTASY`)
-- `sortBy`: Field name to sort by (`createdAt`, etc.)
-- `sort`: `asc` or `desc`
-- `limit`: Result limit (default: 10)
+* `filter` (genre)
+* `sortBy` (e.g., `createdAt`)
+* `sort` (`asc` or `desc`)
+* `limit` (default: 10)
 
 ---
 
 ### 3. **Get Book by ID**
 
-`GET /api/books/:bookId`
+**GET** `/api/books/:bookId`
 
 ---
 
-### 4. **Update Book**
+### 4. **Update a Book**
 
-`PUT /api/books/:bookId`
+**PUT** `/api/books/:bookId`
 
 ```json
 { "copies": 50 }
@@ -190,15 +193,15 @@ npm run dev
 
 ---
 
-### 5. **Delete Book**
+### 5. **Delete a Book**
 
-`DELETE /api/books/:bookId`
+**DELETE** `/api/books/:bookId`
 
 ---
 
 ### 6. **Borrow a Book**
 
-`POST /api/borrow`
+**POST** `/api/borrow`
 
 ```json
 {
@@ -208,74 +211,81 @@ npm run dev
 }
 ```
 
-> ⚠️ Automatically reduces available copies and flags `available: false` if stock is 0.
+> Automatically adjusts available copies and flags availability status.
 
 ---
 
 ### 7. **Borrowed Books Summary**
 
-`GET /api/borrow`
+**GET** `/api/borrow`
 
-**Returns** total borrowed quantity per book using aggregation.
+Returns aggregated total borrowed quantity per book.
 
 ---
 
 ## 🧠 Mongoose Features
 
-- **Validation**: Ensures data integrity (e.g., non-negative copies)
-- **Static Methods**: `Book.borrowCopies()` encapsulates borrow logic
-- **Middleware**:
+* **Validation**: Type safety and business rule enforcement.
+* **Static Methods**: Reusable logic like `Book.borrowCopies()`.
+* **Middleware**:
 
-  - `pre-save`: Automatically sets availability
-  - `post-save`: Custom hooks (e.g., logging)
+  * `pre-save`: Updates book availability
+  * `post-save`: Triggers logs or hooks
 
 ---
 
 ## 🧪 Testing
 
-You can test the endpoints with:
+You can test the API using tools like:
 
-- [Postman](https://www.postman.com/)
-- [Thunder Client](https://www.thunderclient.com/)
-- `curl` or any HTTP client of your choice
+* [Postman](https://www.postman.com/)
+* [Thunder Client](https://www.thunderclient.com/)
+* `curl`, HTTPie, or other REST clients
 
 ---
 
 ## 🔐 Security
 
-- Input validation prevents malformed data
-- Environment variables prevent secret exposure
-- Consider adding rate limiting and authentication in production
+* Input validation to prevent data corruption
+* Uses `.env` to secure database credentials
+* Additions like rate-limiting, helmet, CORS, and auth recommended for production
 
 ---
 
 ## 💸 Monetization Ideas
 
-- **SaaS Subscription**: Offer a hosted dashboard for schools/libraries.
-- **API as a Service**: Provide paid API access with usage limits.
-- **Premium Tier**: Add advanced analytics, user auth, overdue fine tracking.
-- **White-label Licensing**: Offer the app as a branded solution for institutions.
+* **SaaS Platform**: Offer as a subscription for schools/libraries
+* **API Monetization**: Charge for high-volume API access
+* **Premium Modules**: Advanced analytics, user permissions, overdue tracking
+* **Custom Licensing**: Sell to educational or institutional clients
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repo and create a pull request with detailed description of changes.
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Submit a pull request
+
+Please include detailed descriptions with your PRs.
 
 ---
 
 ## 📈 Future Roadmap
 
-- ✅ Add authentication and user roles
-- ⏳ Integration with QR/barcode scanning
-- ⏳ Track overdue returns and send email notifications
-- ⏳ Admin panel using React/Vue
-- ⏳ Dockerize for easy deployment
+* ✅ Add authentication and user roles
+* ⏳ QR/barcode scan integration
+* ⏳ Email reminders for due dates
+* ⏳ Admin dashboard with charts & stats
+* ⏳ Docker support for containerized deployments
 
 ---
 
 ## 📝 License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
 
 ---
