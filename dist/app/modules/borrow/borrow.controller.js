@@ -18,7 +18,6 @@ const borrow_service_1 = require("./borrow.service");
 const createBorrow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { book, quantity, dueDate } = req.body;
-        // console.log(data);
         const borrowBook = yield (0, borrow_service_1.createBorrowService)(book, quantity, dueDate);
         res.status(201).json({
             success: true,

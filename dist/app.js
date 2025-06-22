@@ -16,12 +16,12 @@ app.use(borrow_routes_1.borrowRoutes);
 app.get("/", (req, res) => {
     try {
         res.json({
-            message: "✅server is running",
+            message: "✅ Library Management Server is Running...",
         });
     }
     catch (error) {
         res.json({
-            message: "✅something went wrong",
+            message: "✅ Something Went Wrong",
             error: error,
         });
     }

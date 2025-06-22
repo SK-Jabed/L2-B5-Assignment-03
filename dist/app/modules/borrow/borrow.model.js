@@ -29,22 +29,17 @@ const borrowSchema = new mongoose_1.Schema({
     versionKey: false,
     timestamps: true,
 });
-// instance method
 borrowSchema.method("updateBook", function (bookId) {
     return __awaiter(this, void 0, void 0, function* () {
-        // console.log(bookId);
         const findBook = yield book_model_1.Book.findById(bookId);
-        // console.log(findBook);
         if ((findBook === null || findBook === void 0 ? void 0 : findBook.copies) === 0) {
             yield book_model_1.Book.findByIdAndUpdate(bookId, { available: false });
         }
     });
 });
-// post middleware
 borrowSchema.post("save", function name(params, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const findBook = yield book_model_1.Book.findById(params.book);
-        // console.log(findBook);
         if (findBook) {
             const newCopies = findBook.copies - params.quantity;
             yield book_model_1.Book.findByIdAndUpdate(params.book, { copies: newCopies });

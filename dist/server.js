@@ -19,9 +19,9 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(index_1.default.db_uri);
-            console.log("✅ Database connected successfully");
+            console.log("✅ Database Connected Successfully!");
             app_1.default.listen(index_1.default.port, () => {
-                console.log(`✅ server is running on port ${index_1.default.port}`);
+                console.log(`✅ Server is running on port ${index_1.default.port}`);
             });
         }
         catch (error) {

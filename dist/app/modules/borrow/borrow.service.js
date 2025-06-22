@@ -14,7 +14,6 @@ const book_model_1 = require("../book/book.model");
 const borrow_model_1 = require("./borrow.model");
 const createBorrowService = (book, quantity, dueDate) => __awaiter(void 0, void 0, void 0, function* () {
     const findBook = yield book_model_1.Book.findById(book);
-    // console.log(findBook);
     if (!findBook) {
         throw new Error("Book not found");
     }
@@ -27,8 +26,6 @@ const createBorrowService = (book, quantity, dueDate) => __awaiter(void 0, void 
     if (!findBook.available) {
         throw new Error("Book is currently unavailable");
     }
-    // const newCopies = findBook.copies - quantity
-    // await Book.findByIdAndUpdate(book,{copies:newCopies})
     const createBorrow = yield borrow_model_1.Borrow.create({ book, quantity, dueDate });
     yield createBorrow.updateBook(book);
     return createBorrow;
@@ -36,11 +33,9 @@ const createBorrowService = (book, quantity, dueDate) => __awaiter(void 0, void 
 exports.createBorrowService = createBorrowService;
 const getAllBorrowService = () => __awaiter(void 0, void 0, void 0, function* () {
     const borrowedBooks = yield borrow_model_1.Borrow.aggregate([
-        // 1st stage
         {
             $group: { _id: "$book", totalQuantity: { $sum: "$quantity" } },
         },
-        // 2nd stage
         {
             $lookup: {
                 from: "books",
@@ -49,14 +44,12 @@ const getAllBorrowService = () => __awaiter(void 0, void 0, void 0, function* ()
                 as: "bookDetails",
             },
         },
-        // 3rd stage
         {
             $unwind: {
                 path: "$bookDetails",
                 preserveNullAndEmptyArrays: true,
             },
         },
-        // 4th stage
         {
             $project: {
                 book: {

@@ -7,7 +7,7 @@ export const createBorrowService = async (
   dueDate: string
 ) => {
   const findBook = await Book.findById(book);
-  // console.log(findBook);
+
   if (!findBook) {
     throw new Error("Book not found");
   }
@@ -24,9 +24,6 @@ export const createBorrowService = async (
     throw new Error("Book is currently unavailable");
   }
 
-  // const newCopies = findBook.copies - quantity
-  // await Book.findByIdAndUpdate(book,{copies:newCopies})
-
   const createBorrow = await Borrow.create({ book, quantity, dueDate });
 
   await createBorrow.updateBook(book);
@@ -36,12 +33,11 @@ export const createBorrowService = async (
 
 export const getAllBorrowService = async () => {
   const borrowedBooks = await Borrow.aggregate([
-    // 1st stage
+
     {
       $group: { _id: "$book", totalQuantity: { $sum: "$quantity" } },
     },
 
-    // 2nd stage
     {
       $lookup: {
         from: "books",
@@ -51,7 +47,6 @@ export const getAllBorrowService = async () => {
       },
     },
 
-    // 3rd stage
     {
       $unwind: {
         path: "$bookDetails",
@@ -59,7 +54,6 @@ export const getAllBorrowService = async () => {
       },
     },
 
-    // 4th stage
     {
       $project: {
         book: {
@@ -71,5 +65,6 @@ export const getAllBorrowService = async () => {
       },
     },
   ]);
+
   return borrowedBooks;
 };

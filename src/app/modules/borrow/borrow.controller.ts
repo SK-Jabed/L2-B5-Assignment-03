@@ -8,8 +8,9 @@ export const createBorrow = async (
 ): Promise<any> => {
   try {
     const { book, quantity, dueDate } = req.body;
-    // console.log(data);
+
     const borrowBook = await createBorrowService(book, quantity, dueDate);
+    
     res.status(201).json({
       success: true,
       message: "Book borrowed successfully",
@@ -26,9 +27,11 @@ export const createBorrow = async (
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,
@@ -46,6 +49,7 @@ export const createBorrow = async (
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
@@ -76,9 +80,11 @@ export const getAllBorrow = async (
         },
       });
     }
+
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,
@@ -96,6 +102,7 @@ export const getAllBorrow = async (
         },
       });
     }
+
     return res.status(500).json({
       message: "Something went wrong",
       success: false,
