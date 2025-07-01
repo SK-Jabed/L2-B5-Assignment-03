@@ -10,7 +10,7 @@ export const createBorrow = async (
     const { book, quantity, dueDate } = req.body;
 
     const borrowBook = await createBorrowService(book, quantity, dueDate);
-    
+
     res.status(201).json({
       success: true,
       message: "Book borrowed successfully",
