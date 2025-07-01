@@ -62,7 +62,7 @@ A **robust**, **scalable**, and **feature-rich** RESTful API for managing books 
 ```bash
 git clone https://github.com/SK-Jabed/L2-B5-Assignment-03-LM-API.git
 cd L2-B5-Assignment-03-LM-API
-````
+```
 
 ### 2. Install Dependencies
 
@@ -100,13 +100,13 @@ npm run dev
 
 | Field         | Type    | Required | Description                                                                  |
 | ------------- | ------- | -------- | ---------------------------------------------------------------------------- |
-| `title`       | string  | ✅        | Book title                                                                   |
-| `author`      | string  | ✅        | Book author                                                                  |
-| `genre`       | string  | ✅        | Enum: `FICTION`, `NON_FICTION`, `SCIENCE`, `HISTORY`, `BIOGRAPHY`, `FANTASY` |
-| `isbn`        | string  | ✅        | Unique ISBN identifier                                                       |
-| `description` | string  | ❌        | Optional description                                                         |
-| `copies`      | number  | ✅        | Non-negative number of available copies                                      |
-| `available`   | boolean | ❌        | Auto-managed based on `copies` (default: `true`)                             |
+| `title`       | string  | ✅       | Book title                                                                   |
+| `author`      | string  | ✅       | Book author                                                                  |
+| `genre`       | string  | ✅       | Enum: `FICTION`, `NON_FICTION`, `SCIENCE`, `HISTORY`, `BIOGRAPHY`, `FANTASY` |
+| `isbn`        | string  | ✅       | Unique ISBN identifier                                                       |
+| `description` | string  | ❌       | Optional description                                                         |
+| `copies`      | number  | ✅       | Non-negative number of available copies                                      |
+| `available`   | boolean | ❌       | Auto-managed based on `copies` (default: `true`)                             |
 
 ---
 
@@ -114,9 +114,9 @@ npm run dev
 
 | Field      | Type     | Required | Description                             |
 | ---------- | -------- | -------- | --------------------------------------- |
-| `book`     | ObjectId | ✅        | Reference to the book being borrowed    |
-| `quantity` | number   | ✅        | Number of copies to borrow              |
-| `dueDate`  | ISO Date | ✅        | Date by which the book must be returned |
+| `book`     | ObjectId | ✅       | Reference to the book being borrowed    |
+| `quantity` | number   | ✅       | Number of copies to borrow              |
+| `dueDate`  | ISO Date | ✅       | Date by which the book must be returned |
 
 ---
 
@@ -170,10 +170,10 @@ Example error response for invalid input:
 
 **Query Parameters**:
 
-* `filter` (genre)
-* `sortBy` (e.g., `createdAt`)
-* `sort` (`asc` or `desc`)
-* `limit` (default: 10)
+- `filter` (genre)
+- `sortBy` (e.g., `createdAt`)
+- `sort` (`asc` or `desc`)
+- `limit` (default: 10)
 
 ---
 
@@ -225,12 +225,12 @@ Returns aggregated total borrowed quantity per book.
 
 ## 🧠 Mongoose Features
 
-* **Validation**: Type safety and business rule enforcement.
-* **Static Methods**: Reusable logic like `Book.borrowCopies()`.
-* **Middleware**:
+- **Validation**: Type safety and business rule enforcement.
+- **Static Methods**: Reusable logic like `Book.borrowCopies()`.
+- **Middleware**:
 
-  * `pre-save`: Updates book availability
-  * `post-save`: Triggers logs or hooks
+  - `pre-save`: Updates book availability
+  - `post-save`: Triggers logs or hooks
 
 ---
 
@@ -238,26 +238,25 @@ Returns aggregated total borrowed quantity per book.
 
 You can test the API using tools like:
 
-* [Postman](https://www.postman.com/)
-* [Thunder Client](https://www.thunderclient.com/)
-* `curl`, HTTPie, or other REST clients
+- [Postman](https://www.postman.com/)
+- [Thunder Client](https://www.thunderclient.com/)
+- `curl`, HTTPie, or other REST clients
 
 ---
 
 ## 🔐 Security
 
-* Input validation to prevent data corruption
-* Uses `.env` to secure database credentials
-* Additions like rate-limiting, helmet, CORS, and auth recommended for production
+- Input validation to prevent data corruption
+- Uses `.env` to secure database credentials
+- Additions like rate-limiting, helmet, CORS, and auth recommended for production
 
 ---
 
 ## 💸 Monetization Ideas
 
-* **SaaS Platform**: Offer as a subscription for schools/libraries
-* **API Monetization**: Charge for high-volume API access
-* **Premium Modules**: Advanced analytics, user permissions, overdue tracking
-* **Custom Licensing**: Sell to educational or institutional clients
+- **SaaS Platform**: Offer as a subscription for schools/libraries
+- **API Monetization**: Charge for high-volume API access
+- **Premium Modules**: Advanced analytics, user permissions, overdue tracking
 
 ---
 
@@ -276,11 +275,11 @@ Please include detailed descriptions with your PRs.
 
 ## 📈 Future Roadmap
 
-* ✅ Add authentication and user roles
-* ⏳ QR/barcode scan integration
-* ⏳ Email reminders for due dates
-* ⏳ Admin dashboard with charts & stats
-* ⏳ Docker support for containerized deployments
+- ✅ Add authentication and user roles
+- ⏳ QR/barcode scan integration
+- ⏳ Email reminders for due dates
+- ⏳ Admin dashboard with charts & stats
+- ⏳ Docker support for containerized deployments
 
 ---
 
