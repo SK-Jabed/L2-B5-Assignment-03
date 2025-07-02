@@ -177,7 +177,7 @@ export const getSingleBook = async (
   }
 };
 
-// ------ Update a Book's Data -------
+// ------ Update a Book's Data ------
 export const updateBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const bookId = req.params.bookId;
@@ -205,6 +205,7 @@ export const updateBook = async (req: Request, res: Response): Promise<any> => {
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
+      
       return res.status(409).json({
         message: "Validation failed",
         success: false,
