@@ -18,7 +18,7 @@
   ],
   "author": "Sheikh Jabed",
   "license": "ISC",
-  "description": "",
+  "description": "This is the server side of Library Management Project",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
