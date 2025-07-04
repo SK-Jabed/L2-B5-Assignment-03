@@ -64,11 +64,11 @@ export const createBook = async (req: Request, res: Response): Promise<any> => {
 // ------ Get All Books Data ------
 export const getBooks = async (req: Request, res: Response): Promise<any> => {
   try {
-    let query = {
-      filter: req?.query?.filter,
-      sortBy: req?.query?.sortBy,
-      sort: req?.query?.sort,
-      limit: Number(req?.query?.limit),
+    const query = {
+      filter: req.query.filter,
+      sortBy: req.query.sortBy,
+      sort: req.query.sort,
+      limit: req.query.limit ? Number(req.query.limit) : undefined,
     };
 
     const allBooks = await getBooksService(query);
@@ -205,7 +205,7 @@ export const updateBook = async (req: Request, res: Response): Promise<any> => {
     if (error.code === 11000 && error.name === "MongoServerError") {
       const duplicatedField = Object.keys(error.keyValue)[0];
       const duplicatedValue = error.keyValue[duplicatedField];
-      
+
       return res.status(409).json({
         message: "Validation failed",
         success: false,

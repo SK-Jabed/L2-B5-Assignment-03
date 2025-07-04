@@ -25,9 +25,9 @@ export const getBooksService = async (query: any) => {
     queryBuilder = queryBuilder.sort(sorting);
   }
 
-  const limit =
-    query.limit && Number(query.limit) > 0 ? Number(query.limit) : 10;
-  queryBuilder = queryBuilder.limit(limit);
+  if (query.limit && Number(query.limit) > 0) {
+    queryBuilder = queryBuilder.limit(Number(query.limit));
+  }
 
   const allBooks = await queryBuilder;
   return allBooks;
