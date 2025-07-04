@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBook = exports.updateBook = exports.getSingleBook = exports.getBooks = exports.createBook = void 0;
 const book_service_1 = require("./book.service");
 const mongoose_1 = __importDefault(require("mongoose"));
-// ----- Create Book ------
+// ------ Create Book ------
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
@@ -67,13 +67,12 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createBook = createBook;
 // ------ Get All Books Data ------
 const getBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d;
     try {
-        let query = {
-            filter: (_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.filter,
-            sortBy: (_b = req === null || req === void 0 ? void 0 : req.query) === null || _b === void 0 ? void 0 : _b.sortBy,
-            sort: (_c = req === null || req === void 0 ? void 0 : req.query) === null || _c === void 0 ? void 0 : _c.sort,
-            limit: Number((_d = req === null || req === void 0 ? void 0 : req.query) === null || _d === void 0 ? void 0 : _d.limit),
+        const query = {
+            filter: req.query.filter,
+            sortBy: req.query.sortBy,
+            sort: req.query.sort,
+            limit: req.query.limit ? Number(req.query.limit) : undefined,
         };
         const allBooks = yield (0, book_service_1.getBooksService)(query);
         res.status(201).json({
@@ -121,7 +120,7 @@ const getBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getBooks = getBooks;
-// ------ Get Single Book's Data -------
+// ------ Get Single Book's Data ------
 const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;
@@ -171,7 +170,7 @@ const getSingleBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getSingleBook = getSingleBook;
-// ------ Update a Book's Data -------
+// ------ Update a Book's Data ------
 const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookId = req.params.bookId;
